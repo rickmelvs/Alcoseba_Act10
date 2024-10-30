@@ -1,10 +1,9 @@
 # Alcoseba_Act10
 
 - name: Install Logstash
-  apt:
+  yum:
     name: logstash
     state: present
-    update_cache: yes
 
 - name: Configure Logstash
   template:
