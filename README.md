@@ -15,3 +15,13 @@ handlers for all roles
   service:
     name: logstash
     state: restarted
+
+main.yml for each role tasks
+
+- name: Ubuntu
+  import_tasks: ubuntu.yml
+  when: ansible_os_family == "Debian"
+
+- name: CentOS
+  import_tasks: centos.yml
+  when: ansible_os_family == "RedHat"
