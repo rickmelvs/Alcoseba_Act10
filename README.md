@@ -1,15 +1,38 @@
 # Alcoseba_Act10
 
-# Kibana Settings
+---
+- name: Install Logstash Package
+  apt:
+    name: logstash
+    state: latest
+  when: ansible_distribution == "Ubuntu"
 
-# Define the port for the Kibana server
-server.port: 5601
+- name: Set Permissions for Logstash Data Directory
+  file:
+    path: /usr/share/logstash/data
+    state: directory
+    mode: '0755'
+    owner: logstash
+    group: logstash
+  when: ansible_distribution == "Ubuntu"
 
-# Set the IP address the Kibana server will connect to
-server.host: "192.168.56.102"
+- name: Apply Logstash Configuration
+  template:
+    src: logstash.conf.j2
+    dest: /etc/logstash/conf.d/logstash.conf
+  when: ansible_distribution == "Ubuntu"
 
-# Specify the external URL for accessing Kibana
-server.publicBaseUrl: "http://192.168.56.102:5601"
+- name: Open Port 9200 in UFW
+  ufw:
+    rule: allow
+    port: "9200"
+    proto: tcp
+  when: ansible_distribution == "Ubuntu"
 
-# URL of the Elasticsearch server
-elasticsearch.hosts: ["http://192.168.56.111:9200"]
+- name: Start and Enable Logstash Service
+  service:
+    name: logstash
+    state: started
+    enabled: yes  # Ensures service starts on boot
+  become: yes
+  when: ansible_distribution == "Ubuntu"
