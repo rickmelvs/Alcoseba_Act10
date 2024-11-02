@@ -1,4 +1,8 @@
-- name: Add Elastic APT key
+---
+- name: Setup and Install Logstash
+  hosts: all
+  tasks:
+    - name: Add Elastic APT key
       apt_key:
         url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
         state: present
