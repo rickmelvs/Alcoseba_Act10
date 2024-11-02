@@ -1,33 +1,32 @@
----
 - hosts: all
   become: true
   pre_tasks:
 
-  - name: update repository index / install Updates (CentOS)
+  - name: Update repository index / install updates on CentOS
     tags: always
-    dnf:
+    yum:
       update_cache: yes
     changed_when: false
     when: ansible_distribution == "CentOS"
 
-  - name: update repository index / install Updates (Ubuntu)
+  - name: Update repository index / install updates on Ubuntu
     tags: always
     apt:
       update_cache: yes
     changed_when: false
     when: ansible_distribution == "Ubuntu"
     
-- hosts: CentOS
+- hosts: centos_servers
   become: true
   roles:
-   - CentOS
+   - centos_role
 
-- hosts: Ubuntu1
+- hosts: ubuntu_server1
   become: true
   roles:
-   - Ubuntu1
+   - ubuntu_role1
    
-- hosts: Ubuntu2
+- hosts: ubuntu_server2
   become: true
   roles:
-   - Ubuntu2
+   - ubuntu_role2
