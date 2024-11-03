@@ -1,0 +1,32 @@
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: Update repository index / install updates on CentOS
+    tags: always
+    yum:
+      update_cache: yes
+    changed_when: false
+    when: ansible_distribution == "CentOS"
+
+  - name: Update repository index / install updates on Ubuntu
+    tags: always
+    apt:
+      update_cache: yes
+    changed_when: false
+    when: ansible_distribution == "Ubuntu"
+
+- hosts: centos
+  become: true
+  roles:
+   - centos
+
+- hosts: ubuntu1
+  become: true
+  roles:
+   - ubuntu1
+
+- hosts: ubuntu2
+  become: true
+  roles:
+   - ubuntu2

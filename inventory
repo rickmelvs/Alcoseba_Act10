@@ -1,0 +1,8 @@
+[ubuntu1]
+192.168.56.116
+
+[ubuntu2]
+192.168.56.117
+
+[centos]
+192.168.56.113 ansible_user=ralcoseba
